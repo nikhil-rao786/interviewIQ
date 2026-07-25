@@ -13,7 +13,7 @@ app.use(express.json())
 app.use(cookieParser())
 
 app.use(cors({
-    origin:"https://interviewiq-1-uyv3.onrender.com",
+    origin:"https://interviewiq-client-2c70.onrender.com",
     credentials:true
 }))
 
