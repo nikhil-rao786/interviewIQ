@@ -11,7 +11,7 @@ import InterviewHistory from "./Pages/interviewHistory";
 import InterviewReport from "./Pages/InterviewReport";
 import Pricing from "./Pages/Pricing";
 
-export const ServerUrl = "https://interviewiq-ijwv.onrender.com";
+export const ServerUrl = "https://interviewiq-0vkq.onrender.com";
 
 const App = () => {
   const dispatch = useDispatch();
