@@ -1,5 +1,5 @@
-import React from 'react'
-import { motion } from "motion/react"
+import React from 'react';
+import { motion } from "motion/react"; // Agar v12 use kar rahe hain toh ye theek hai, warna "framer-motion" use karein
 import {
     FaUserTie,
     FaBriefcase,
@@ -8,13 +8,16 @@ import {
     FaChartLine,
 } from "react-icons/fa";
 import { useState } from 'react';
-import axios from "axios"
+import axios from "axios";
 import { ServerUrl } from '../App';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserData } from '../redux/userSlice';
+
 function Step1SetUp({ onStart }) {
-    const {userData}= useSelector((state)=>state.user)
-    const dispatch = useDispatch()
+    
+    const [showCreditPopup, setShowCreditPopup] = useState(false);
+    const { userData } = useSelector((state) => state.user);
+    const dispatch = useDispatch();
     const [role, setRole] = useState("");
     const [experience, setExperience] = useState("");
     const [mode, setMode] = useState("Technical");
@@ -29,15 +32,15 @@ function Step1SetUp({ onStart }) {
 
     const handleUploadResume = async () => {
         if (!resumeFile || analyzing) return;
-        setAnalyzing(true)
+        setAnalyzing(true);
 
-        const formdata = new FormData()
-        formdata.append("resume", resumeFile)
+        const formdata = new FormData();
+        formdata.append("resume", resumeFile);
 
         try {
-            const result = await axios.post(ServerUrl + "/api/interview/resume", formdata, { withCredentials: true })
+            const result = await axios.post(ServerUrl + "/api/interview/resume", formdata, { withCredentials: true });
 
-            console.log(result.data)
+            console.log(result.data);
 
             setRole(result.data.role || "");
             setExperience(result.data.experience || "");
@@ -49,27 +52,54 @@ function Step1SetUp({ onStart }) {
             setAnalyzing(false);
 
         } catch (error) {
-            console.log(error)
+            console.log(error);
             setAnalyzing(false);
         }
-    }
+    };
 
     const handleStart = async () => {
-        setLoading(true)
+        if ((userData?.credits ?? 0) < 50) {
+            setShowCreditPopup(true);
+            return;
+        }
+
+        setLoading(true);
+
         try {
-           const result = await axios.post(ServerUrl + "/api/interview/generate-questions" , {role, experience, mode , resumeText, projects, skills } , {withCredentials:true}) 
-           console.log(result.data)
-           if(userData){
-            dispatch(setUserData({...userData , credits:result.data.creditsLeft}))
-           }
-           setLoading(false)
-           onStart(result.data)
+            const result = await axios.post(
+                ServerUrl + "/api/interview/generate-questions",
+                {
+                    role,
+                    experience,
+                    mode,
+                    resumeText,
+                    projects,
+                    skills,
+                },
+                { withCredentials: true }
+            );
+
+            console.log(result.data);
+
+            if (userData) {
+                dispatch(
+                    setUserData({
+                        ...userData,
+                        credits: result.data.creditsLeft,
+                    })
+                );
+            }
+
+            setLoading(false);
+            onStart(result.data);
 
         } catch (error) {
-            console.log(error)
-            setLoading(false)
+            console.log(error);
+            setLoading(false);
         }
-    }
+    }; 
+    // Yahan galti se ek aur try...catch block tha, jise hata diya gaya hai.
+
     return (
         <motion.div
             initial={{ opacity: 0 }}
@@ -95,7 +125,6 @@ function Step1SetUp({ onStart }) {
                     </p>
 
                     <div className='space-y-5'>
-
                         {
                             [
                                 {
@@ -119,17 +148,12 @@ function Step1SetUp({ onStart }) {
                                     className='flex items-center space-x-4 bg-white p-4 rounded-xl shadow-sm cursor-pointer'>
                                     {item.icon}
                                     <span className='text-gray-700 font-medium'>{item.text}</span>
-
                                 </motion.div>
                             ))
                         }
                     </div>
 
-
-
                 </motion.div>
-
-
 
                 <motion.div
                     initial={{ x: 80, opacity: 0 }}
@@ -141,35 +165,27 @@ function Step1SetUp({ onStart }) {
                         Interview SetUp
                     </h2>
 
-
                     <div className='space-y-6'>
 
                         <div className='relative'>
                             <FaUserTie className='absolute top-4 left-4 text-gray-400' />
-
                             <input type='text' placeholder='Enter role'
                                 className='w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none transition'
                                 onChange={(e) => setRole(e.target.value)} value={role} />
                         </div>
 
-
                         <div className='relative'>
                             <FaBriefcase className='absolute top-4 left-4 text-gray-400' />
-
                             <input type='text' placeholder='Experience (e.g. 2 years)'
                                 className='w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none transition'
                                 onChange={(e) => setExperience(e.target.value)} value={experience} />
-
-
                         </div>
 
                         <select value={mode}
                             onChange={(e) => setMode(e.target.value)}
                             className='w-full py-3 px-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none transition'>
-
                             <option value="Technical">Technical Interview</option>
                             <option value="HR">HR Interview</option>
-
                         </select>
 
                         {!analysisDone && (
@@ -179,7 +195,6 @@ function Step1SetUp({ onStart }) {
                                 className='border-2 border-dashed border-gray-300 rounded-xl p-8 text-center cursor-pointer hover:border-green-500 hover:bg-green-50 transition'>
 
                                 <FaFileUpload className='text-4xl mx-auto text-green-600 mb-3' />
-
                                 <input type="file"
                                     accept="application/pdf"
                                     id="resumeUpload"
@@ -195,16 +210,13 @@ function Step1SetUp({ onStart }) {
                                         whileHover={{ scale: 1.02 }}
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            handleUploadResume()
+                                            handleUploadResume();
                                         }}
-
                                         className='mt-4 bg-gray-900 text-white px-5 py-2 rounded-lg hover:bg-gray-800 transition'>
                                         {analyzing ? "Analyzing..." : "Analyze Resume"}
-
-                                    </motion.button>)}
-
+                                    </motion.button>
+                                )}
                             </motion.div>
-
                         )}
 
                         {analysisDone && (
@@ -219,7 +231,6 @@ function Step1SetUp({ onStart }) {
                                     <div>
                                         <p className='font-medium text-gray-700 mb-1'>
                                             Projects:</p>
-
                                         <ul className='list-disc list-inside text-gray-600 space-y-1'>
                                             {projects.map((p, i) => (
                                                 <li key={i}>{p}</li>
@@ -232,7 +243,6 @@ function Step1SetUp({ onStart }) {
                                     <div>
                                         <p className='font-medium text-gray-700 mb-1'>
                                             Skills:</p>
-
                                         <div className='flex flex-wrap gap-2'>
                                             {skills.map((s, i) => (
                                                 <span key={i} className='bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm'>{s}</span>
@@ -240,28 +250,50 @@ function Step1SetUp({ onStart }) {
                                         </div>
                                     </div>
                                 )}
-
                             </motion.div>
                         )}
 
 
                         <motion.button
-                        onClick={handleStart}
+                            onClick={handleStart}
                             disabled={!role || !experience || loading}
                             whileHover={{ scale: 1.03 }}
                             whileTap={{ scale: 0.95 }}
                             className='w-full disabled:bg-gray-600 bg-green-600 hover:bg-green-700 text-white py-3 rounded-full text-lg font-semibold transition duration-300 shadow-md'>
-                            {loading ? "Staring...":"Start Interview"}
-
-
+                            {loading ? "Starting..." : "Start Interview"}
                         </motion.button>
-                    </div>
 
+                        {showCreditPopup && (
+                            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                                <div className="bg-white rounded-2xl p-6 w-[90%] max-w-md shadow-2xl">
+                                    <h2 className="text-2xl font-bold text-red-600 mb-3">
+                                        Insufficient Credits
+                                    </h2>
+                                    <p className="text-gray-700">
+                                        You need at least
+                                        <span className="font-bold text-green-600"> 50 credits </span>
+                                        to start an interview.
+                                    </p>
+                                    <p className="mt-2 text-gray-700">
+                                        Your current credits:
+                                        <span className="font-bold">
+                                            {" "}{userData?.credits ?? 0}
+                                        </span>
+                                    </p>
+                                    <button
+                                        onClick={() => setShowCreditPopup(false)}
+                                        className="mt-6 w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg"
+                                    >
+                                        OK
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </motion.div>
             </div>
-
         </motion.div>
-    )
+    );
 }
 
-export default Step1SetUp
+export default Step1SetUp;
