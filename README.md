@@ -1260,9 +1260,12 @@ Instead of being a simple CRUD project, it demonstrates how different backend se
 # 👨‍💻 Author
 
 **Nikhil Rao**
+Software Developer | Full-Stack Developer
+B.Tech — IIT (BHU) Varanasi
 
-B.Tech — Chemical Engineering & Technology
-IIT (BHU) Varanasi
+**Interests:** Full-Stack Development • MERN Stack • AI Applications • Data Structures & Algorithms
+
+🔗 **GitHub:** [nikhil-rao786](https://github.com/nikhil-rao786)
 
 ---
 
