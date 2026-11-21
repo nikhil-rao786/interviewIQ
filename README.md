@@ -4,7 +4,6 @@
 
 <p align="center">
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-success?style=for-the-badge)](https://interviewiq-client-2c70.onrender.com/)
 
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-black?style=for-the-badge\&logo=github)](https://github.com/nikhil-rao786/interviewIQ)
 
@@ -1260,7 +1259,7 @@ Instead of being a simple CRUD project, it demonstrates how different backend se
 # 👨‍💻 Author
 
 **Nikhil Rao**
-Software Developer | Full-Stack Developer
+
 B.Tech — IIT (BHU) Varanasi
 
 **Interests:** Full-Stack Development • MERN Stack • AI Applications • Data Structures & Algorithms
