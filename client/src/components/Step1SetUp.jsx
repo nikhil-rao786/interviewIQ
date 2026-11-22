@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { motion } from "motion/react"; // Agar v12 use kar rahe hain toh ye theek hai, warna "framer-motion" use karein
 import {
     FaUserTie,
     FaBriefcase,
@@ -6,12 +7,14 @@ import {
     FaMicrophoneAlt,
     FaChartLine,
 } from "react-icons/fa";
+import { useState } from 'react';
 import axios from "axios";
 import { ServerUrl } from '../App';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserData } from '../redux/userSlice';
 
 function Step1SetUp({ onStart }) {
+    
     const [showCreditPopup, setShowCreditPopup] = useState(false);
     const { userData } = useSelector((state) => state.user);
     const dispatch = useDispatch();
@@ -25,6 +28,7 @@ function Step1SetUp({ onStart }) {
     const [resumeText, setResumeText] = useState("");
     const [analysisDone, setAnalysisDone] = useState(false);
     const [analyzing, setAnalyzing] = useState(false);
+
 
     const handleUploadResume = async () => {
         if (!resumeFile || analyzing) return;
@@ -93,14 +97,23 @@ function Step1SetUp({ onStart }) {
             console.log(error);
             setLoading(false);
         }
-    };
+    }; 
+    // Yahan galti se ek aur try...catch block tha, jise hata diya gaya hai.
 
     return (
-        <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 px-4'>
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            className='min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 px-4'>
 
             <div className='w-full max-w-6xl bg-white rounded-3xl shadow-2xl grid md:grid-cols-2 overflow-hidden'>
 
-                <div className='relative bg-gradient-to-br from-green-50 to-green-100 p-12 flex flex-col justify-center'>
+                <motion.div
+                    initial={{ x: -80, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ duration: 0.7 }}
+                    className='relative bg-gradient-to-br from-green-50 to-green-100 p-12 flex flex-col justify-center'>
 
                     <h2 className="text-4xl font-bold text-gray-800 mb-6">
                         Start Your AI Interview
@@ -127,18 +140,26 @@ function Step1SetUp({ onStart }) {
                                     text: "Performance Analytics",
                                 },
                             ].map((item, index) => (
-                                <div key={index}
-                                    className='flex items-center space-x-4 bg-white p-4 rounded-xl shadow-sm cursor-pointer transform transition-transform hover:scale-105'>
+                                <motion.div key={index}
+                                    initial={{ y: 30, opacity: 0 }}
+                                    animate={{ y: 0, opacity: 1 }}
+                                    transition={{ delay: 0.3 + index * 0.15 }}
+                                    whileHover={{ scale: 1.03 }}
+                                    className='flex items-center space-x-4 bg-white p-4 rounded-xl shadow-sm cursor-pointer'>
                                     {item.icon}
                                     <span className='text-gray-700 font-medium'>{item.text}</span>
-                                </div>
+                                </motion.div>
                             ))
                         }
                     </div>
 
-                </div>
+                </motion.div>
 
-                <div className="p-12 bg-white">
+                <motion.div
+                    initial={{ x: 80, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ duration: 0.7 }}
+                    className="p-12 bg-white">
 
                     <h2 className='text-3xl font-bold text-gray-800 mb-8'>
                         Interview SetUp
@@ -168,9 +189,10 @@ function Step1SetUp({ onStart }) {
                         </select>
 
                         {!analysisDone && (
-                            <div
+                            <motion.div
+                                whileHover={{ scale: 1.02 }}
                                 onClick={() => document.getElementById("resumeUpload").click()}
-                                className='border-2 border-dashed border-gray-300 rounded-xl p-8 text-center cursor-pointer hover:border-green-500 hover:bg-green-50 transform transition-transform hover:scale-[1.02]'>
+                                className='border-2 border-dashed border-gray-300 rounded-xl p-8 text-center cursor-pointer hover:border-green-500 hover:bg-green-50 transition'>
 
                                 <FaFileUpload className='text-4xl mx-auto text-green-600 mb-3' />
                                 <input type="file"
@@ -184,20 +206,24 @@ function Step1SetUp({ onStart }) {
                                 </p>
 
                                 {resumeFile && (
-                                    <button
+                                    <motion.button
+                                        whileHover={{ scale: 1.02 }}
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             handleUploadResume();
                                         }}
-                                        className='mt-4 bg-gray-900 text-white px-5 py-2 rounded-lg hover:bg-gray-800 transition transform hover:scale-105'>
+                                        className='mt-4 bg-gray-900 text-white px-5 py-2 rounded-lg hover:bg-gray-800 transition'>
                                         {analyzing ? "Analyzing..." : "Analyze Resume"}
-                                    </button>
+                                    </motion.button>
                                 )}
-                            </div>
+                            </motion.div>
                         )}
 
                         {analysisDone && (
-                            <div className='bg-gray-50 border border-gray-200 rounded-xl p-5 space-y-4'>
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className='bg-gray-50 border border-gray-200 rounded-xl p-5 space-y-4'>
                                 <h3 className='text-lg font-semibold text-gray-800'>
                                     Resume Analysis Result</h3>
 
@@ -224,16 +250,18 @@ function Step1SetUp({ onStart }) {
                                         </div>
                                     </div>
                                 )}
-                            </div>
+                            </motion.div>
                         )}
 
 
-                        <button
+                        <motion.button
                             onClick={handleStart}
                             disabled={!role || !experience || loading}
-                            className='w-full disabled:bg-gray-600 bg-green-600 hover:bg-green-700 text-white py-3 rounded-full text-lg font-semibold transition duration-300 shadow-md transform hover:scale-[1.03] active:scale-95'>
+                            whileHover={{ scale: 1.03 }}
+                            whileTap={{ scale: 0.95 }}
+                            className='w-full disabled:bg-gray-600 bg-green-600 hover:bg-green-700 text-white py-3 rounded-full text-lg font-semibold transition duration-300 shadow-md'>
                             {loading ? "Starting..." : "Start Interview"}
-                        </button>
+                        </motion.button>
 
                         {showCreditPopup && (
                             <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
@@ -262,9 +290,9 @@ function Step1SetUp({ onStart }) {
                             </div>
                         )}
                     </div>
-                </div>
+                </motion.div>
             </div>
-        </div>
+        </motion.div>
     );
 }
 

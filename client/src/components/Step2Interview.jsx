@@ -2,8 +2,11 @@ import React from 'react'
 import maleVideo from "../assets/videos/male-ai.mp4"
 import femaleVideo from "../assets/videos/female-ai.mp4"
 import Timer from './Timer'
+import { motion } from "motion/react"
 import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
-import { useState, useRef, useEffect } from 'react'
+import { useState } from 'react'
+import { useRef } from 'react'
+import { useEffect } from 'react'
 import axios from "axios"
 import { ServerUrl } from '../App'
 import { BsArrowRight } from 'react-icons/bs'
@@ -99,8 +102,8 @@ function Step2Interview({ interviewData, onFinish }) {
       utterance.voice = selectedVoice;
 
       // Human-like pacing
-      utterance.rate = 0.92;    // slightly slower than normal
-      utterance.pitch = 1.05;   // small warmth
+      utterance.rate = 0.92;     // slightly slower than normal
+      utterance.pitch = 1.05;    // small warmth
       utterance.volume = 1;
 
       utterance.onstart = () => {
@@ -260,12 +263,12 @@ function Step2Interview({ interviewData, onFinish }) {
       speakText(result.data.feedback)
       setIsSubmitting(false)
     } catch (error) {
-      console.log(error)
-      setIsSubmitting(false)
+console.log(error)
+setIsSubmitting(false)
     }
   }
 
-  const handleNext = async () => {
+  const handleNext =async () => {
     setAnswer("");
     setFeedback("");
 
@@ -408,32 +411,37 @@ function Step2Interview({ interviewData, onFinish }) {
 
 
          {!feedback ? ( <div className='flex items-center gap-4 mt-6'>
-            <button
+            <motion.button
               onClick={toggleMic}
-              className='w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center rounded-full bg-black text-white shadow-lg transform transition-transform active:scale-90'>
+              whileTap={{ scale: 0.9 }}
+              className='w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center rounded-full bg-black text-white shadow-lg'>
               {isMicOn ? <FaMicrophone size={20} /> : <FaMicrophoneSlash size={20}/>}
-            </button>
+            </motion.button>
 
-            <button
+            <motion.button
             onClick={submitAnswer}
             disabled={isSubmitting}
-              className='flex-1 bg-gradient-to-r from-emerald-600 to-teal-500 text-white py-3 sm:py-4 rounded-2xl shadow-lg hover:opacity-90 transition transform active:scale-95 font-semibold disabled:bg-gray-500 disabled:active:scale-100'>
+              whileTap={{ scale: 0.95 }}
+              className='flex-1 bg-gradient-to-r from-emerald-600 to-teal-500 text-white py-3 sm:py-4 rounded-2xl shadow-lg hover:opacity-90 transition font-semibold disabled:bg-gray-500'>
               {isSubmitting?"Submitting...":"Submit Answer"}
 
-            </button>
+            </motion.button>
 
           </div>):(
-            <div className='mt-6 bg-emerald-50 border border-emerald-200 p-5 rounded-2xl shadow-sm transition-opacity duration-300'>
+            <motion.div 
+             initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            className='mt-6 bg-emerald-50 border border-emerald-200 p-5 rounded-2xl shadow-sm'>
               <p className='text-emerald-700 font-medium mb-4'>{feedback}</p>
 
               <button
               onClick={handleNext}
 
-                className='w-full bg-gradient-to-r from-emerald-600 to-teal-500 text-white py-3 rounded-xl shadow-md hover:opacity-90 transition transform active:scale-95 flex items-center justify-center gap-1'>
+               className='w-full bg-gradient-to-r from-emerald-600 to-teal-500 text-white py-3 rounded-xl shadow-md hover:opacity-90 transition flex items-center justify-center gap-1'>
                 Next Question <BsArrowRight size={18}/>
               </button>
 
-            </div>
+            </motion.div>
           )}
         </div>
       </div>

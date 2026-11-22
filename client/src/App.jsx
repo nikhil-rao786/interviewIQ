@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 import axios from "axios";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -11,7 +12,7 @@ import InterviewHistory from "./Pages/interviewHistory";
 import InterviewReport from "./Pages/InterviewReport";
 import Pricing from "./Pages/Pricing";
 
-export const ServerUrl = "http://localhost:8000";
+export const ServerUrl = import.meta.env.VITE_SERVER_URL || "http://localhost:8000";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -43,11 +44,12 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/interview" element={<InterviewPage />} />
-        <Route path="/history" element={<InterviewHistory/>}/>
-        <Route path="pricing" element={<Pricing/>}/>
-        <Route path='/report/:id' element={<InterviewReport/>}/>
+        <Route path="/history" element={<InterviewHistory />} />
+        <Route path="/pricing" element={<Pricing />} />
+        <Route path="/report/:id" element={<InterviewReport />} />
       </Routes>
     </BrowserRouter>
   );
 };
+
 export default App;
