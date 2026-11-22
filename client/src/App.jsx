@@ -40,17 +40,14 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/interview" element={<InterviewPage />} />
         <Route path="/history" element={<InterviewHistory/>}/>
-        
         <Route path="pricing" element={<Pricing/>}/>
         <Route path='/report/:id' element={<InterviewReport/>}/>
       </Routes>
     </BrowserRouter>
   );
 };
-
 export default App;

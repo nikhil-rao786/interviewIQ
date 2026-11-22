@@ -13,7 +13,9 @@ app.use(express.json())
 app.use(cookieParser())
 
 app.use(cors({
-    origin:"http://localhost:5173",
+    origin:["http://localhost:5173",
+    "https://interviewiq-client-2c70.onrender.com"],
+
     credentials:true
 }))
 
@@ -36,7 +38,8 @@ app.get("/", (req, res) =>{
 
 
 app.listen(PORT, ()=>{
-    console.log(`Server running on ${PORT}`)
     connectDb()
+    console.log(`Server running on ${PORT}`)
+    
 }
 )

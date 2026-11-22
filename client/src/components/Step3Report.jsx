@@ -1,7 +1,6 @@
 import React from 'react'
 import { FaArrowLeft } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { motion } from "motion/react"
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
@@ -177,7 +176,7 @@ function Step3Report({ report }) {
         <div className='md:mb-10 w-full flex items-start gap-4 flex-wrap'>
           <button
             onClick={() => navigate("/history")}
-            className='mt-1 p-3 rounded-full bg-white shadow hover:shadow-md transition'><FaArrowLeft className='text-gray-600' /></button>
+            className='mt-1 p-3 rounded-full bg-white shadow hover:shadow-md transition transform active:scale-95'><FaArrowLeft className='text-gray-600' /></button>
 
           <div>
             <h1 className='text-3xl font-bold flex-nowrap text-gray-800'>
@@ -190,17 +189,15 @@ function Step3Report({ report }) {
           </div>
         </div>
 
-        <button onClick={downloadPDF} className='bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl shadow-md transition-all duration-300 font-semibold text-sm sm:text-base text-nowrap'>Download PDF</button>
+        <button onClick={downloadPDF} className='bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl shadow-md transition-all duration-300 transform active:scale-95 font-semibold text-sm sm:text-base text-nowrap'>Download PDF</button>
       </div>
 
 
       <div className='grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8'>
 
         <div className='space-y-6'>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="bg-white rounded-2xl sm:rounded-3xl shadow-lg p-6 sm:p-8 text-center">
+          <div
+            className="bg-white rounded-2xl sm:rounded-3xl shadow-lg p-6 sm:p-8 text-center animate-fade-in">
 
             <h3 className="text-gray-500 mb-4 sm:mb-6 text-sm sm:text-base">
               Overall Performance
@@ -230,11 +227,9 @@ function Step3Report({ report }) {
                 {shortTagline}
               </p>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+          <div
             className='bg-white rounded-2xl sm:rounded-3xl shadow-lg p-6 sm:p-8'>
             <h3 className="text-base sm:text-lg font-semibold text-gray-700 mb-6">
               Skill Evaluation
@@ -251,7 +246,7 @@ function Step3Report({ report }) {
                     </div>
 
                     <div className='bg-gray-200 h-2 sm:h-3 rounded-full'>
-                      <div className='bg-green-500 h-full rounded-full'
+                      <div className='bg-green-500 h-full rounded-full transition-all duration-500 ease-in-out'
                         style={{ width: `${s.value * 10}%` }}
 
                       ></div>
@@ -264,16 +259,14 @@ function Step3Report({ report }) {
               }
             </div>
 
-          </motion.div>
+          </div>
 
 
         </div>
 
         <div className='lg:col-span-2 space-y-6'>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+          <div
             className='bg-white rounded-2xl sm:rounded-3xl shadow-lg p-5 sm:p-8'>
             <h3 className="text-base sm:text-lg font-semibold text-gray-700 mb-4 sm:mb-6">
               Performance Trend
@@ -302,11 +295,9 @@ function Step3Report({ report }) {
             </div>
 
 
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+          <div
             className='bg-white rounded-2xl sm:rounded-3xl shadow-lg p-5 sm:p-8'>
             <h3 className="text-base sm:text-lg font-semibold text-gray-700 mb-6">
               Question Breakdown
@@ -348,7 +339,7 @@ function Step3Report({ report }) {
               ))}
             </div>
 
-          </motion.div>
+          </div>
 
 
 
